@@ -40,36 +40,44 @@ npm install
 3. Configure as variáveis de ambiente
 ```bash
 # Crie um arquivo .env na raiz do projeto com as seguintes variáveis
-PORT=3000
+PORT=4000
 MONGODB_URI=sua-uri-do-mongodb
 ```
 
-## Criando o banco de dados
-1. Local(Via Docker)
+## Criando o banco de dados(Escolha um dos métodos abaixo)
+### 1. Local(Via Docker)
 
-1.1. Faça o download e instalação do Docker:
-- Acesse o site abaixo e siga as instruções de instalação:
+#### 1.1. Faça o download e instalação do Docker:
+#### - Acesse o site abaixo e siga as instruções de instalação:
 ```bash
 https://www.docker.com/
 ```
-1.2. Abra um terminal e Execute o comando abaixo para baixar e executar a imagem docker:
+#### 1.2. Abra um terminal e Execute o comando abaixo para baixar e executar a imagem docker:
 ```bash
-docker run --name my-mongodb -d -p 27017:27017 -v mongodb_data:/data/db mongo:latest
+docker run --name mongodb -d -p 27017:27017 -v mongodb_data:/data/db mongo:latest
 ```
-1.3. Verifique se o container esta em execução
+#### 1.3. Verifique se o container esta em execução
 ```bash
 docker ps
 ```
-1.4. Inclua a url no arquivo .env
+#### 1.4. Acesse o shell do MongoDB
+```bash
+docker exec -it mongodb mongosh
+```
+#### 1.5. Crie o banco de dados
+```bash
+use bankapp
+```
+#### 1.6. Inclua a url no arquivo .env
 ```bash
 # Crie um arquivo .env na raiz do projeto com as seguintes variáveis
-PORT=3000
+PORT=4000
 MONGODB_URI=mongodb://localhost:27017/bankapp
 ```
 
-2. Mongo Atlas(Cloud)
+### 2. Mongo Atlas(Cloud)
 
-2.1. Inclua em seu arquivo .env a URL abaixo:
+#### 2.1. Inclua em seu arquivo .env a URL abaixo:
 ```bash
 # Crie um arquivo .env na raiz do projeto com as seguintes variáveis, usuário temporario apenas para avaliação do desafio
 PORT=3000
@@ -153,7 +161,7 @@ query BuscarConta($conta: String!) {
 ```
 
 ```graphql
-# Template para os parametros(JSON)
+# Exemplo para os parametros(JSON)
 # Adicione o código abaixo na area de variáveis(Variables)
 {
   "conta": "28383"
@@ -182,7 +190,7 @@ mutation CriarConta($input: CreateAccountInput!) {
 ```
 
 ```graphql
-# Template para os parametros(JSON)
+# Exemplo para os parametros(JSON)
 # Adicione o código abaixo na area de variáveis(Variables)
 {
   "input": {
@@ -201,8 +209,10 @@ mutation DeletarConta($conta: String!) {
     saldo
   }
 }
+```
 
-# Template para os parametros(JSON)
+```graphql
+# Exemplo para os parametros(JSON)
 # Adicione o código abaixo na area de variáveis(Variables)
 {
   "conta": "13853"
@@ -222,7 +232,7 @@ mutation Depositar($input: EditFundsInput!) {
 ```
 
 ```graphql
-# Template para os parametros(JSON)
+# Exemplo para os parametros(JSON)
 # Adicione o código abaixo na area de variáveis(Variables)
 {
   "input": {
@@ -244,7 +254,7 @@ mutation Sacar($input: EditFundsInput!) {
 ```
 
 ```graphql
-# Template para os parametros(JSON)
+# Exemplo para os parametros(JSON)
 # Adicione o código abaixo na area de variáveis(Variables)
 {
   "input": {
