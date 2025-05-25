@@ -127,7 +127,11 @@ buscarConta(conta: String!): Account
 ```
 
 #### Queries Apollo API
+
+##### Listar Contas 
 ```graphql
+# Template para listar todas as contas cadastradas
+# Adicione o código abaixo na area de operações(Operation)
 query ListarContas {
   listarContas {
     conta
@@ -136,16 +140,21 @@ query ListarContas {
 }
 ```
 
+##### Buscar Conta
 ```graphql
 # Template para buscar uma conta
+# Adicione o código abaixo na area de operações(Operation)
 query BuscarConta($conta: String!) {
   buscarConta(conta: $conta) {
     conta
     saldo
   }
 }
+```
 
+```graphql
 # Template para os parametros(JSON)
+# Adicione o código abaixo na area de variáveis(Variables)
 {
   "conta": "28383"
 }
@@ -160,16 +169,21 @@ sacar(input: EditFundsInput!): Account!
 ```
 
 #### Mutations Apollo API
+##### Criar Conta
 ```graphql
 # Template para criação de uma conta
+# Adicione o código abaixo na area de operações(Operation)
 mutation CriarConta($input: CreateAccountInput!) {
   criarConta(input: $input) {
     conta
     saldo
   }
 }
+```
 
+```graphql
 # Template para os parametros(JSON)
+# Adicione o código abaixo na area de variáveis(Variables)
 {
   "input": {
     "saldo": 0
@@ -177,8 +191,10 @@ mutation CriarConta($input: CreateAccountInput!) {
 }
 ```
 
+##### Deletar Conta
 ```graphql
 # Template para deletar uma conta
+# Adicione o código abaixo na area de operações(Operation)
 mutation DeletarConta($conta: String!) {
   deletarConta(conta: $conta) {
     conta
@@ -187,21 +203,27 @@ mutation DeletarConta($conta: String!) {
 }
 
 # Template para os parametros(JSON)
+# Adicione o código abaixo na area de variáveis(Variables)
 {
   "conta": "13853"
 }
 ```
 
+##### Depositar
 ```graphql
 # Template para depositar um valor em uma conta
+# Adicione o código abaixo na area de operações(Operation)
 mutation Depositar($input: EditFundsInput!) {
   depositar(input: $input) {
     conta
     saldo
   }
 }
+```
 
+```graphql
 # Template para os parametros(JSON)
+# Adicione o código abaixo na area de variáveis(Variables)
 {
   "input": {
     "conta": "33070",
@@ -210,6 +232,7 @@ mutation Depositar($input: EditFundsInput!) {
 }
 ```
 
+##### Sacar
 ```graphql
 # Template para sacar um valor de uma conta
 mutation Sacar($input: EditFundsInput!) {
@@ -218,8 +241,11 @@ mutation Sacar($input: EditFundsInput!) {
     saldo   
   }
 }
+```
 
+```graphql
 # Template para os parametros(JSON)
+# Adicione o código abaixo na area de variáveis(Variables)
 {
   "input": {
     "conta": "33070",
