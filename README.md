@@ -27,20 +27,20 @@ API GraphQL para gerenciamento de contas bancárias desenvolvida com Node.js, Ty
 
 ## 🔧 Instalação
 
-1. Clone o repositório
+### 1. Clone o repositório
 ```bash
 git clone https://github.com/RafaelMTA/functionalhealthtech_challenge.git
 ```
 
-2. Instale as dependências
+### 2. Instale as dependências
 ```bash
 npm install
 ```
 
-3. Configure as variáveis de ambiente
+### 3. Configure as variáveis de ambiente
 ```bash
 # Crie um arquivo .env na raiz do projeto com as seguintes variáveis
-PORT=4000
+PORT=3000
 MONGODB_URI=sua-uri-do-mongodb
 ```
 
@@ -71,7 +71,7 @@ use bankapp
 #### 1.6. Inclua a url no arquivo .env
 ```bash
 # Crie um arquivo .env na raiz do projeto com as seguintes variáveis
-PORT=4000
+PORT=3000
 MONGODB_URI=mongodb://localhost:27017/bankapp
 ```
 
@@ -96,6 +96,13 @@ npm test
 # Cobertura de testes
 npm run test:coverage
 ```
+
+### Acesse o link da aplicação para abrir a API do Apollo Server
+```bash
+# Exemplo
+http://localhost:3000/
+```
+#### Acesse a seção da Documentação do GraphQL para utilização da API do Apollo Server
 
 ## 🗄️ Estrutura do Banco de Dados
 
