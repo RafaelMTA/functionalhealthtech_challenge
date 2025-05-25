@@ -102,7 +102,7 @@ npm run test:coverage
 
 ## 🔍 Testes
 
-O projeto utiliza Vitest para testes unitários e de integração:
+O projeto utiliza Vitest para testes unitários:
 
 - Testes de Serviços (Services)
   - Validações de negócio
@@ -111,7 +111,6 @@ O projeto utiliza Vitest para testes unitários e de integração:
 
 - Testes de Repositórios (Repositories)
   - Operações CRUD
-  - Interações com MongoDB
   - Tratamento de erros de banco
 
 - Testes de Modelos (Models)
