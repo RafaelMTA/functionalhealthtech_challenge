@@ -48,9 +48,10 @@ MONGODB_URI=sua-uri-do-mongodb
 1. Local(Via Docker)
 
 1.1. Faça o download e instalação do Docker:
-# Acesse o site abaixo e siga as instruções de instalação:
-# https://www.docker.com/
-
+- Acesse o site abaixo e siga as instruções de instalação:
+```bash
+https://www.docker.com/
+```
 1.2. Abra um terminal e Execute o comando abaixo para baixar e executar a imagem docker:
 ```bash
 docker run --name my-mongodb -d -p 27017:27017 -v mongodb_data:/data/db mongo:latest
