@@ -29,7 +29,7 @@ API GraphQL para gerenciamento de contas bancárias desenvolvida com Node.js, Ty
 
 1. Clone o repositório
 ```bash
-git clone <url-do-repositorio>
+git clone https://github.com/RafaelMTA/functionalhealthtech_challenge.git
 ```
 
 2. Instale as dependências
