@@ -127,12 +127,74 @@ listarContas: [Account!]!
 buscarConta(accountNumber: String!): Account
 ```
 
+#### Queries Apollo
+```graphql
+query ListarContas {
+  listarContas {
+    _id
+    accountNumber
+    balance
+  }
+}
+```
+
+```graphql
+query BuscarConta($accountNumber: String!) {
+  buscarConta(accountNumber: $accountNumber) {
+    accountNumber
+    balance
+    _id
+  }
+}
+```
+
 ### Mutations
 ```graphql
 criarConta(input: CreateAccountInput!): Account!
 deletarConta(accountNumber: String!): Accout
 depositar(input: EditFundsInput!): Account!
 sacar(input: EditFundsInput!): Account!
+```
+
+#### Mutations Apollo
+```graphql
+mutation CriarConta($input: CreateAccountInput!) {
+  criarConta(input: $input) {
+    _id
+    accountNumber
+    balance
+  }
+}
+```
+
+```graphql
+mutation DeletarConta($accountNumber: String!) {
+  deletarConta(accountNumber: $accountNumber) {
+    _id
+    accountNumber
+    balance
+  }
+}
+```
+
+```graphql
+mutation Depositar($input: EditFundsInput!) {
+  depositar(input: $input) {
+    accountNumber
+    balance
+    _id
+  }
+}
+```
+
+```graphql
+mutation Sacar($input: EditFundsInput!) {
+  sacar(input: $input) {
+    accountNumber
+    balance
+    _id
+  }
+}
 ```
 
 ## 🔒 Validações Implementadas
