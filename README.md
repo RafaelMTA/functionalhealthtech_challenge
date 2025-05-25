@@ -141,9 +141,9 @@ query ListarContas {
 ```graphql
 query BuscarConta($accountNumber: String!) {
   buscarConta(accountNumber: $accountNumber) {
-    accountNumber
-    balance
     _id
+    accountNumber
+    balance   
   }
 }
 ```
@@ -180,9 +180,9 @@ mutation DeletarConta($accountNumber: String!) {
 ```graphql
 mutation Depositar($input: EditFundsInput!) {
   depositar(input: $input) {
-    accountNumber
-    balance
     _id
+    accountNumber
+    balance 
   }
 }
 ```
@@ -190,9 +190,9 @@ mutation Depositar($input: EditFundsInput!) {
 ```graphql
 mutation Sacar($input: EditFundsInput!) {
   sacar(input: $input) {
-    accountNumber
-    balance
     _id
+    accountNumber
+    balance    
   }
 }
 ```
