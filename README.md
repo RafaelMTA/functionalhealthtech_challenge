@@ -9,6 +9,7 @@ API GraphQL para gerenciamento de contas bancárias desenvolvida com Node.js, Ty
 - MongoDB com Mongoose
 - Apollo Server (GraphQL)
 - Vitest (Testes)
+- ESLint
 
 ## 📋 Funcionalidades
 
@@ -41,6 +42,7 @@ npm install
 ```bash
 # Crie um arquivo .env na raiz do projeto com as seguintes variáveis
 PORT=3000
+NODE_ENV=development
 MONGODB_URI=sua-uri-do-mongodb
 ```
 
@@ -72,6 +74,7 @@ use bankapp
 ```bash
 # Crie um arquivo .env na raiz do projeto com as seguintes variáveis
 PORT=3000
+NODE_ENV=development
 MONGODB_URI=mongodb://localhost:27017/bankapp
 ```
 
@@ -81,6 +84,7 @@ MONGODB_URI=mongodb://localhost:27017/bankapp
 ```bash
 # Crie um arquivo .env na raiz do projeto com as seguintes variáveis, usuário temporario apenas para avaliação do desafio
 PORT=3000
+NODE_ENV=development
 MONGODB_URI=mongodb+srv://openuser:V1YvYcNGBpQVPkda@bankapp.hdjczyu.mongodb.net/?retryWrites=true&w=majority&appName=bankapp
 ```
 
@@ -294,4 +298,6 @@ mutation Sacar($input: EditFundsInput!) {
 - Testes Automatizados
 - Tipagem Forte (TypeScript)
 
+## ✨ Usando ESLint
 
+O projeto utiliza ESLint para garantir qualidade e consistência do código.
