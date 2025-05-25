@@ -295,6 +295,6 @@ mutation Sacar($input: EditFundsInput!) {
 - Testes Automatizados
 - Tipagem Forte (TypeScript)
 
-## ✨ Usando ESLint
+## ✨ Utilizando ESLint
 
 O projeto utiliza ESLint para garantir qualidade e consistência do código.
