@@ -7,6 +7,7 @@ import { resolvers as TransactionResolvers } from './graphql/resolvers/transacti
 import { AccountRepository } from './repositories/account/account.repository';
 import { AccountService } from './services/account/account.service';
 import { TransactionService } from './services/transaction/transaction.service';
+import { formatError } from './utils/error.formatter';
 
 const startServer = async () => {
     await connectDB();
@@ -18,6 +19,9 @@ const startServer = async () => {
     const server = new ApolloServer({
         typeDefs: [AccountTypeDefs, TransactionTypeDefs],
         resolvers: [AccountResolvers(accountService), TransactionResolvers(transactionService)],
+        formatError,
+        cache: 'bounded',
+        persistedQueries: false,
     });
 
     const port = process.env.PORT || 4000;

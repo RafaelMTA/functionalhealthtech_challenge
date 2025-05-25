@@ -292,7 +292,6 @@ mutation Sacar($input: EditFundsInput!) {
 - Clean Code
 - SOLID Principles
 - Testes Automatizados
-- Validações Robustas
 - Tipagem Forte (TypeScript)
 
 
