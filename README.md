@@ -68,6 +68,7 @@ MONGODB_URI=mongodb://localhost:27017/bankapp
 ```
 
 2. Mongo Atlas(Cloud)
+
 2.1. Inclua em seu arquivo .env a URL abaixo:
 ```bash
 # Crie um arquivo .env na raiz do projeto com as seguintes variáveis, usuário temporario apenas para avaliação do desafio
