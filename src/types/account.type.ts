@@ -1,8 +1,8 @@
 export interface IAccount {
-    accountNumber: string;
-    balance: number;
+    conta: string;
+    saldo: number;
 }
 
 export type CreateAccountInput = {
-    balance: number;
+    saldo: number;
 }

@@ -2,8 +2,12 @@ import { Schema, model } from 'mongoose';
 import { IAccount } from '../types/account.type';
 import { hasMoreThanTwoDecimals, truncateToTwoDecimals } from '../utils/number.helper';
 
+/**
+ * Schema do MongoDB para conta bancária
+ * Define estrutura e validações para os dados da conta
+ */
 const AccountSchema = new Schema<IAccount>({
-  accountNumber: {
+  conta: {
     type: String,
     required: [true, 'Número da conta é obrigatório'],
     unique: true,
@@ -12,7 +16,7 @@ const AccountSchema = new Schema<IAccount>({
       message: "Numero da conta deve ter exatamente 5 dígitos"
     }
   },
-  balance: {
+  saldo: {
     type: Number,
     default: 0,
     min: [0, 'Valor não pode ser negativo'],

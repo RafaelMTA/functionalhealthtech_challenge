@@ -5,13 +5,13 @@ export const typeDefs = gql`
 
   type Account {
     _id: ID!
-    accountNumber: String!
-    balance: Decimal!
+    conta: String!
+    saldo: Decimal!
   }
 
   input EditFundsInput {
-    accountNumber: String!,
-    balance: Decimal!
+    conta: String!,
+    valor: Decimal!
   }
 
   type Mutation {

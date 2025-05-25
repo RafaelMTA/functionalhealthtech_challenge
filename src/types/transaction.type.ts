@@ -1,4 +1,4 @@
 export type EditFundsInput = {
-    accountNumber: string;
-    balance: number;
+    conta: string;
+    valor: number;
 }

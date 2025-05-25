@@ -1,4 +1,4 @@
-import { IAccount, CreateAccountInput } from '../../types/account.type';
+import { CreateAccountInput, IAccount } from '../../types/account.type';
 
 export interface IAccountRepository {
     getAllAccounts(): Promise<IAccount[]>;

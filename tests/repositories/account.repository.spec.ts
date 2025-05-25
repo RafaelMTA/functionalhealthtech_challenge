@@ -56,36 +56,36 @@ describe('AccountRepository', () => {
 
     describe('createAccount', () => {
         it('deve criar conta com sucesso', async () => {
-            const input = { balance: 1000 };
+            const input = { saldo: 1000 };
             const result = await repository.createAccount(input);
-            expect(result.balance).toBe(input.balance);
-            expect(result.accountNumber).toBeDefined();
+            expect(result.saldo).toBe(input.saldo);
+            expect(result.conta).toBeDefined();
             expect(mockModel.create).toHaveBeenCalled();
         });
 
         it('deve lidar com erro ao criar conta', async () => {
-            const input = { balance: 1000 };
+            const input = { saldo: 1000 };
             mockModel.create.mockRejectedValueOnce(new Error('Create failed'));
             await expect(repository.createAccount(input))
                 .rejects.toThrow(DatabaseError);
         });
 
         it('deve criar conta com saldo zero', async () => {
-            const input = { balance: 0 };
+            const input = { saldo: 0 };
             const result = await repository.createAccount(input);
-            expect(result.balance).toBe(0);
+            expect(result.saldo).toBe(0);
         });
 
         it('deve criar conta com saldo decimal', async () => {
-            const input = { balance: 100.50 };
+            const input = { saldo: 100.50 };
             const result = await repository.createAccount(input);
-            expect(result.balance).toBe(100.50);
+            expect(result.saldo).toBe(100.50);
         });
 
         it('deve propagar AppError na criação', async () => {
             const appError = new AppError('Custom app error', 400);
             mockModel.create.mockRejectedValueOnce(appError);
-            await expect(repository.createAccount({ balance: 1000 }))
+            await expect(repository.createAccount({ saldo: 1000 }))
                 .rejects.toThrow(appError);
         });
     });
@@ -94,7 +94,7 @@ describe('AccountRepository', () => {
         it('deve encontrar conta pelo número', async () => {
             const result = await repository.findByAccountNumber("12345");
             expect(result).toEqual(mockAccount);
-            expect(mockModel.findOne).toHaveBeenCalledWith({ accountNumber: "12345" });
+            expect(mockModel.findOne).toHaveBeenCalledWith({ conta: "12345" });
         });
 
         it('deve retornar null se a conta não for encontrada', async () => {
@@ -122,7 +122,7 @@ describe('AccountRepository', () => {
         it('deve deletar a conta com sucesso', async () => {
             const result = await repository.deleteByAccountNumber("12345");
             expect(result).toEqual(mockAccount);
-            expect(mockModel.findOneAndDelete).toHaveBeenCalledWith({ accountNumber: "12345" });
+            expect(mockModel.findOneAndDelete).toHaveBeenCalledWith({ conta: "12345" });
         });
 
         it('deve retornar null se a conta não for encontrada', async () => {
@@ -142,16 +142,16 @@ describe('AccountRepository', () => {
         beforeEach(() => {
             mockModel.findOneAndUpdate = vi.fn().mockResolvedValue({
                 ...mockAccount,
-                balance: 2000
+                saldo: 2000
             });
         });
 
         it('deve atualizar saldo com sucesso', async () => {
             const result = await repository.updateAccountBalance("12345", 2000);
-            expect(result?.balance).toBe(2000);
+            expect(result?.saldo).toBe(2000);
             expect(mockModel.findOneAndUpdate).toHaveBeenCalledWith(
-                { accountNumber: "12345" },
-                { balance: 2000 },
+                { conta: "12345" },
+                { saldo: 2000 },
                 { new: true }
             );
         });

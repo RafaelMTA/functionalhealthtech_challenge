@@ -29,7 +29,7 @@ describe('AccountService', () => {
         });
 
         it('deve criar uma nova conta', async () => {
-            const input = { balance: 1000 };
+            const input = { saldo: 1000 };
             const result = await service.createAccount(input);
             expect(result).toEqual(mockAccount);
             expect(mockRepository.createAccount).toHaveBeenCalledWith(input);

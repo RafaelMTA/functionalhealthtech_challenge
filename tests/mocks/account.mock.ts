@@ -1,50 +1,49 @@
 import { IAccount } from "../../src/types/account.type";
 
 export const mockAccount: IAccount = {
-    accountNumber: "12345",
-    balance: 1000
+    conta: "12345",
+    saldo: 1000
 };
 
 export const mockAccounts: IAccount[] = [
-    { accountNumber: "12345", balance: 1000 },
-    { accountNumber: "67890", balance: 2000 },
-    { accountNumber: "11111", balance: 0 }
+    mockAccount,
+    { conta: "67890", saldo: 2000 }
 ];
 
 export const mockAccountEdgeCases: Record<string, IAccount> = {
     zeroBalance: {
-        accountNumber: "00000",
-        balance: 0
+        conta: "00000",
+        saldo: 0
     },
     maxBalance: {
-        accountNumber: "99999",
-        balance: 999999999.99
+        conta: "99999",
+        saldo: 999999999.99
     },
     minBalance: {
-        accountNumber: "11111",
-        balance: 0.01
+        conta: "11111",
+        saldo: 0.01
     },
     exactBalance: {
-        accountNumber: "22222",
-        balance: 100.00
+        conta: "22222",
+        saldo: 100.00
     },
     highPrecision: {
-        accountNumber: "33333",
-        balance: 100.99
+        conta: "33333",
+        saldo: 100.99
     }
 };
 
 export const mockInvalidAccounts: Record<string, Partial<IAccount>> = {
     negativeBalance: {
-        accountNumber: "44444",
-        balance: -100
+        conta: "44444",
+        saldo: -100
     },
     invalidDecimal: {
-        accountNumber: "55555",
-        balance: 100.999
+        conta: "55555",
+        saldo: 100.999
     },
     exceededBalance: {
-        accountNumber: "66666",
-        balance: 1000000000.00
+        conta: "66666",
+        saldo: 1000000000.00
     }
 };

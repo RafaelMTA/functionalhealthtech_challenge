@@ -5,22 +5,22 @@ export const typeDefs = gql`
 
   type Account {
     _id: ID!
-    accountNumber: String!
-    balance: Decimal!
+    conta: String!
+    saldo: Decimal!
     createdAt: String!
   }
 
   input CreateAccountInput {
-    balance: Decimal!
+    saldo: Decimal!
   }
 
   type Query {
     listarContas: [Account!]!
-    buscarConta(accountNumber: String!): Account
+    buscarConta(conta: String!): Account
   }
 
   type Mutation {
     criarConta(input: CreateAccountInput!): Account!
-    deletarConta(accountNumber: String!): Account
+    deletarConta(conta: String!): Account
   }
 `;

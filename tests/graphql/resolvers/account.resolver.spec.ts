@@ -25,7 +25,7 @@ describe('Account Resolvers', () => {
         });
 
         it('deve buscar conta por número', async () => {
-            const result = await resolver.Query.buscarConta(null, { accountNumber: "12345" });
+            const result = await resolver.Query.buscarConta(null, { conta: "12345" });
             expect(result).toEqual(mockAccount);
             expect(mockService.getAccount).toHaveBeenCalledWith("12345");
         });
@@ -33,14 +33,14 @@ describe('Account Resolvers', () => {
 
     describe('Mutation', () => {
         it('deve criar conta com sucesso', async () => {
-            const input = { balance: 1000 };
+            const input = { valor: 1000 };
             const result = await resolver.Mutation.criarConta(null, { input });
             expect(result).toEqual(mockAccount);
             expect(mockService.createAccount).toHaveBeenCalledWith(input);
         });
 
         it('deve deletar conta com sucesso', async () => {
-            const result = await resolver.Mutation.deletarConta(null, { accountNumber: "12345" });
+            const result = await resolver.Mutation.deletarConta(null, { conta: "12345" });
             expect(result).toBe(true);
             expect(mockService.deleteAccount).toHaveBeenCalledWith("12345");
         });

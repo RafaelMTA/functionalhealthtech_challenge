@@ -17,7 +17,7 @@ describe('Transaction Resolvers', () => {
 
     describe('Mutation', () => {
         it('deve realizar depósito com sucesso', async () => {
-            const input = { accountNumber: "12345", balance: 500 };
+            const input = { conta: "12345", valor: 500 };
             const result = await resolver.Mutation.depositar(null, { input });
             expect(result.balance).toBe(1500);
             expect(mockService.deposit).toHaveBeenCalledWith(input);

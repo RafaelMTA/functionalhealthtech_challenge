@@ -15,8 +15,8 @@ describe('GraphQL Schema', () => {
 
         it('deve incluir campos obrigatórios', () => {
             const schema = print(accountTypeDefs);
-            expect(schema).toMatch(/accountNumber:\s*String!/);
-            expect(schema).toMatch(/balance:\s*Decimal!/);
+            expect(schema).toMatch(/conta:\s*String!/);
+            expect(schema).toMatch(/saldo:\s*Decimal!/);
         });
     });
 
@@ -24,8 +24,8 @@ describe('GraphQL Schema', () => {
         it('deve definir inputs corretamente', () => {
             const schema = print(transactionTypeDefs);
             expect(schema).toContain('input EditFundsInput {');
-            expect(schema).toMatch(/accountNumber:\s*String!/);
-            expect(schema).toMatch(/balance:\s*Decimal!/);
+            expect(schema).toMatch(/conta:\s*String!/);
+            expect(schema).toMatch(/saldo:\s*Decimal!/);
         });
 
         it('deve definir mutations corretamente', () => {
