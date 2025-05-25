@@ -7,7 +7,6 @@ export const typeDefs = gql`
     _id: ID!
     conta: String!
     saldo: Decimal!
-    createdAt: String!
   }
 
   input CreateAccountInput {

@@ -94,8 +94,8 @@ npm run test:coverage
 ### Schema da Conta (Account)
 ```typescript
 {
-  accountNumber: String,  // Número único da conta (5 dígitos)
-  balance: Number,       // Saldo com precisão de 2 casas decimais
+  conta: String,  // Número único da conta (5 dígitos)
+  saldo: Number,       // Saldo com precisão de 2 casas decimais
   timestamps: true      // Registra createdAt e updatedAt
 }
 ```
@@ -123,75 +123,107 @@ O projeto utiliza Vitest para testes unitários:
 ### Queries
 ```graphql
 listarContas: [Account!]!
-buscarConta(accountNumber: String!): Account
+buscarConta(conta: String!): Account
 ```
 
-#### Queries Apollo
+#### Queries Apollo API
 ```graphql
 query ListarContas {
   listarContas {
-    _id
-    accountNumber
-    balance
+    conta
+    saldo
   }
 }
 ```
 
 ```graphql
-query BuscarConta($accountNumber: String!) {
-  buscarConta(accountNumber: $accountNumber) {
-    _id
-    accountNumber
-    balance   
+# Template para buscar uma conta
+query BuscarConta($conta: String!) {
+  buscarConta(conta: $conta) {
+    conta
+    saldo
   }
+}
+
+# Template para os parametros(JSON)
+{
+  "conta": "28383"
 }
 ```
 
 ### Mutations
 ```graphql
 criarConta(input: CreateAccountInput!): Account!
-deletarConta(accountNumber: String!): Accout
+deletarConta(conta: String!): Accout
 depositar(input: EditFundsInput!): Account!
 sacar(input: EditFundsInput!): Account!
 ```
 
-#### Mutations Apollo
+#### Mutations Apollo API
 ```graphql
+# Template para criação de uma conta
 mutation CriarConta($input: CreateAccountInput!) {
   criarConta(input: $input) {
-    _id
-    accountNumber
-    balance
+    conta
+    saldo
+  }
+}
+
+# Template para os parametros(JSON)
+{
+  "input": {
+    "saldo": 0
   }
 }
 ```
 
 ```graphql
-mutation DeletarConta($accountNumber: String!) {
-  deletarConta(accountNumber: $accountNumber) {
-    _id
-    accountNumber
-    balance
+# Template para deletar uma conta
+mutation DeletarConta($conta: String!) {
+  deletarConta(conta: $conta) {
+    conta
+    saldo
   }
+}
+
+# Template para os parametros(JSON)
+{
+  "conta": "13853"
 }
 ```
 
 ```graphql
+# Template para depositar um valor em uma conta
 mutation Depositar($input: EditFundsInput!) {
   depositar(input: $input) {
-    _id
-    accountNumber
-    balance 
+    conta
+    saldo
+  }
+}
+
+# Template para os parametros(JSON)
+{
+  "input": {
+    "conta": "33070",
+    "valor": 100.14
   }
 }
 ```
 
 ```graphql
+# Template para sacar um valor de uma conta
 mutation Sacar($input: EditFundsInput!) {
   sacar(input: $input) {
-    _id
-    accountNumber
-    balance    
+    conta
+    saldo   
+  }
+}
+
+# Template para os parametros(JSON)
+{
+  "input": {
+    "conta": "33070",
+    "valor": 0
   }
 }
 ```
