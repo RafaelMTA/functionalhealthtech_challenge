@@ -27,6 +27,12 @@ export class DatabaseError extends AppError {
     }
 }
 
+export class InvalidFundsError extends AppError {
+    constructor(message: string) {
+        super(message, 600);
+    }
+}
+
 export class InsufficientFundsError extends AppError {
     constructor(message: string) {
         super(message, 602);
@@ -39,14 +45,14 @@ export class NegativeFundsError extends AppError {
     }
 }
 
-export class InvalidFundsError extends AppError {
-    constructor(message: string) {
-        super(message, 600);
-    }
-}
-
 export class InvalidDecimalPlacesError extends AppError {
     constructor(message: string) {
         super(message, 603);
+    }
+}
+
+export class InvalidAccountNumberError extends AppError {
+    constructor(message: string) {
+        super(message, 604);
     }
 }

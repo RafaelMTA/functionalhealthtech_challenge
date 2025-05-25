@@ -2,6 +2,7 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { AccountService } from '../../src/services/account/account.service';
 import { mockAccount, mockAccounts } from '../mocks/account.mock';
+import { InvalidAccountNumberError } from '../../src/errors/applicationErrors';
 
 describe('AccountService', () => {
     let service: AccountService;
@@ -52,6 +53,24 @@ describe('AccountService', () => {
             mockRepository.findByAccountNumber.mockResolvedValueOnce(null);
             const result = await service.getAccount("99999");
             expect(result).toBeNull();
+        });
+    });
+
+    describe('Validação do Número da Conta', () => {
+        it('deve rejeitar número de conta vazio', async () => {
+            await expect(service.getAccount('')).rejects.toThrow(InvalidAccountNumberError);
+        });
+
+        it('deve rejeitar número de conta undefined', async () => {
+            await expect(service.getAccount(undefined as any)).rejects.toThrow(InvalidAccountNumberError);
+        });
+
+        it('deve rejeitar número de conta null', async () => {
+            await expect(service.getAccount(null as any)).rejects.toThrow(InvalidAccountNumberError);
+        });
+
+        it('deve rejeitar deleção com número de conta inválido', async () => {
+            await expect(service.deleteAccount('')).rejects.toThrow(InvalidAccountNumberError);
         });
     });
 });
