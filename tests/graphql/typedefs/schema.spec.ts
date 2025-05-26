@@ -21,6 +21,13 @@ describe('GraphQL Schema', () => {
     });
 
     describe('Transaction TypeDefs', () => {
+        it('deve definir tipos corretamente', () => {
+            const schema = print(accountTypeDefs);
+            expect(schema).toBeDefined();
+            expect(schema).toContain('type Account {');
+            expect(schema).toContain('type Mutation {');
+        });
+
         it('deve definir inputs corretamente', () => {
             const schema = print(transactionTypeDefs);
             expect(schema).toMatch(/conta:\s*String!/);

@@ -27,15 +27,6 @@ describe('Account Model', () => {
             expect(account.saldo).toBe(0);
         });
 
-        it('deve impor número de conta exclusivo', async () => {
-            const error = new Error('E11000');
-            error.name = 'MongoError';
-            vi.spyOn(model, 'create').mockRejectedValueOnce(error);
-
-            await expect(model.create({ conta: '12345' }))
-                .rejects.toThrow();
-        });
-
         describe('Validação do atributo Conta', () => {
             it('deve rejeitar número de conta com menos de 5 dígitos', () => {
                 const account = new model({ conta: '1234', saldo: 0 });

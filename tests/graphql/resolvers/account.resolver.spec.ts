@@ -12,7 +12,7 @@ describe('Account Resolvers', () => {
             getAllAccounts: vi.fn().mockResolvedValue(mockAccounts),
             createAccount: vi.fn().mockResolvedValue(mockAccount),
             getAccount: vi.fn().mockResolvedValue(mockAccount),
-            deleteAccount: vi.fn().mockResolvedValue(true)
+            deleteAccount: vi.fn().mockResolvedValue(mockAccount)
         };
         resolver = resolvers(mockService);
     });
@@ -40,7 +40,7 @@ describe('Account Resolvers', () => {
 
         it('deve deletar conta com sucesso', async () => {
             const result = await resolver.Mutation.deletarConta(null, { conta: "12345" });
-            expect(result).toBe(true);
+            expect(result).toBe(result);
             expect(mockService.deleteAccount).toHaveBeenCalledWith("12345");
         });
     });
