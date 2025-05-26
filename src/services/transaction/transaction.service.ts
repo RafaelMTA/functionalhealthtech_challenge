@@ -14,7 +14,7 @@ export class TransactionService implements ITransactionService {
      * @throws {InvalidAccountNumberError} Quando número da conta é inválido
      * @throws {InvalidDecimalPlacesError} Quando valor tem mais de 2 casas decimais
      * @throws {InvalidFundsError} Quando valor é inválido
-     * @throws {NegativeFundsError} Quando valor é menor ou igual a zero
+     * @throws {NegativeFundsError} Quando valor é menor que zero
      * @throws {InvalidFundsAmountError} Quando valor é zero
      * @throws {NotFoundError} Quando conta não existe  
      */
@@ -42,7 +42,7 @@ export class TransactionService implements ITransactionService {
      * @throws {InvalidAccountNumberError} Quando número da conta é inválido
      * @throws {InvalidDecimalPlacesError} Quando valor tem mais de 2 casas decimais
      * @throws {InvalidFundsError} Quando valor é inválido
-     * @throws {NegativeFundsError} Quando valor é menor ou igual a zero
+     * @throws {NegativeFundsError} Quando valor é menor que zero
      * @throws {InvalidFundsAmountError} Quando valor é zero
      * @throws {NotFoundError} Quando conta não existe
      * @throws {InsufficientFundsError} Quando saldo é insuficiente   
