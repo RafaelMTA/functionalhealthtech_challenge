@@ -36,12 +36,10 @@ export class AccountRepository implements IAccountRepository {
     async createAccount(initialBalance: number): Promise<IAccount> {
         try {
             const accountNumber = generateAccountNumber();
-            const newAccount = await this.accountModel.create({
+            return await this.accountModel.create({
                 conta: accountNumber,
                 saldo: initialBalance,
             });
-
-            return newAccount;
         } catch (error) {
             if (error instanceof AppError) throw error;
             throw new DatabaseError(`Database Error: Erro ao criar uma conta: ${error}`);
