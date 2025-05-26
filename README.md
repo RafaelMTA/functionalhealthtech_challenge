@@ -139,7 +139,7 @@ O projeto utiliza Vitest para testes unitários:
 ### Queries
 ```graphql
 listarContas: [Account!]!
-buscarConta(conta: String!): Account
+saldo(conta: String!): Account
 ```
 
 #### Queries Apollo API
@@ -160,8 +160,8 @@ query ListarContas {
 ```graphql
 # Template para buscar uma conta
 # Adicione o código abaixo na area de operações(Operation)
-query BuscarConta($conta: String!) {
-  buscarConta(conta: $conta) {
+query Saldo($conta: String!) {
+  saldo(conta: $conta) {
     conta
     saldo
   }

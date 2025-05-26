@@ -25,7 +25,7 @@ describe('Account Resolvers', () => {
         });
 
         it('deve buscar conta por número', async () => {
-            const result = await resolver.Query.buscarConta(null, { conta: "12345" });
+            const result = await resolver.Query.saldo(null, { conta: "12345" });
             expect(result).toEqual(mockAccount);
             expect(mockService.getAccount).toHaveBeenCalledWith("12345");
         });

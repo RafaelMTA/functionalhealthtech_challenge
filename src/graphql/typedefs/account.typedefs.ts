@@ -11,7 +11,7 @@ export const typeDefs = gql`
 
   type Query {
     listarContas: [Account!]!
-    buscarConta(conta: String!): Account
+    saldo(conta: String!): Account
   }
 
   type Mutation {

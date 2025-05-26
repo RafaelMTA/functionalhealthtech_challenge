@@ -20,7 +20,7 @@ export const resolvers = (accountService: IAccountService) => ({
          * @param conta Número da conta (5 dígitos)
          * @returns Dados da conta ou null se não encontrada
          */
-        buscarConta: async (_: unknown, { conta }: { conta: string }) => {
+        saldo: async (_: unknown, { conta }: { conta: string }) => {
             return await accountService.getAccount(conta);
         }
     },
