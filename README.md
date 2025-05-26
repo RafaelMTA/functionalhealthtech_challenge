@@ -249,6 +249,7 @@ mutation Depositar($conta: String!, $valor: Decimal!) {
 ##### Sacar
 ```graphql
 # Template para sacar um valor de uma conta
+# Adicione o código abaixo na area de operações(Operation)
 mutation Sacar($conta: String!, $valor: Decimal!) {
   sacar(conta: $conta, valor: $valor) {
     conta
