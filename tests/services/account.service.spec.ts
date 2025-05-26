@@ -2,7 +2,7 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { AccountService } from '../../src/services/account/account.service';
 import { mockAccount, mockAccounts } from '../mocks/account.mock';
-import { InvalidAccountNumberError } from '../../src/errors/applicationErrors';
+import { InvalidAccountNumberError, NegativeFundsError } from '../../src/errors/applicationErrors';
 
 describe('AccountService', () => {
     let service: AccountService;
@@ -29,10 +29,10 @@ describe('AccountService', () => {
         });
 
         it('deve criar uma nova conta', async () => {
-            const input = { saldo: 1000 };
-            const result = await service.createAccount(input);
+            const saldo = 1000;
+            const result = await service.createAccount(saldo);
             expect(result).toEqual(mockAccount);
-            expect(mockRepository.createAccount).toHaveBeenCalledWith(input);
+            expect(mockRepository.createAccount).toHaveBeenCalledWith(saldo);
         });
 
         it('deve buscar conta por número', async () => {
@@ -71,6 +71,62 @@ describe('AccountService', () => {
 
         it('deve rejeitar deleção com número de conta inválido', async () => {
             await expect(service.deleteAccount('')).rejects.toThrow(InvalidAccountNumberError);
+        });
+    });
+
+    describe('Validação de Valores', () => {
+        it('deve rejeitar valores NaN', async () => {
+            await expect(service.createAccount(NaN))
+                .rejects.toThrow('Transaction Error: Formato de valor inválido');
+        });
+
+        it('deve rejeitar valores Infinity', async () => {
+            await expect(service.createAccount(Infinity))
+                .rejects.toThrow('Transaction Error: Formato de valor inválido');
+        });
+
+        it('deve rejeitar valores com mais de 2 casas decimais', async () => {
+            await expect(service.createAccount(100.123))
+                .rejects.toThrow('Transaction Error: Valor não pode ter mais que 2 casas decimais');
+        });
+
+        it('deve aceitar valores com até 2 casas decimais', async () => {
+            await service.createAccount(100.12);
+            expect(mockRepository.createAccount).toHaveBeenCalledWith(100.12);
+        });
+
+        it('deve rejeitar criação de conta com saldo negativo', async () => {
+            await expect(service.createAccount(-100))
+                .rejects.toThrow(NegativeFundsError);
+        });
+
+        it('deve rejeitar valores negativos com decimais', async () => {
+            await expect(service.createAccount(-100.50))
+                .rejects.toThrow(NegativeFundsError);
+        });
+
+        it('deve aceitar valor zero na criação da conta', async () => {
+            const result = await service.createAccount(0);
+            expect(result).toBeDefined();
+            expect(mockRepository.createAccount).toHaveBeenCalledWith(0);
+        });
+    });
+
+    describe('Validação de Conta Existente', () => {
+        it('deve lançar erro ao deletar conta inexistente', async () => {
+            mockRepository.deleteByAccountNumber.mockResolvedValueOnce(null);
+            await expect(service.deleteAccount("99999"))
+                .rejects.toThrow('Transaction Error: Conta não encontrada');
+        });
+
+        it('deve lançar erro ao deletar com número de conta undefined', async () => {
+            await expect(service.deleteAccount(undefined as any))
+                .rejects.toThrow('Número da conta é inválido');
+        });
+
+        it('deve lançar erro ao deletar com número de conta null', async () => {
+            await expect(service.deleteAccount(null as any))
+                .rejects.toThrow('Número da conta é inválido');
         });
     });
 });

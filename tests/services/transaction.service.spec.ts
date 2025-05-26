@@ -26,20 +26,20 @@ describe('TransactionService', () => {
     describe('Operações de Depósito', () => {
         it('deve realizar depósito com sucesso', async () => {
             const input = { conta: "12345", valor: 500 };
-            const result = await service.deposit(input);
+            const result = await service.deposit(input.conta, input.valor);
             expect(result?.saldo).toBe(1500);
             expect(mockRepository.updateAccountBalance).toHaveBeenCalledWith("12345", 1500);
         });
 
         it('deve manter precisão decimal no depósito', async () => {
             const input = { conta: "12345", valor: 100.45 };
-            const result = await service.deposit(input);
+            const result = await service.deposit(input.conta, input.valor);
             expect(result?.saldo).toBe(1100.45);
         });
 
         it('deve rejeitar depósito com mais de 2 casas decimais', async () => {
             const input = { conta: "12345", valor: 100.456 };
-            await expect(service.deposit(input))
+            await expect(service.deposit(input.conta, input.valor))
                 .rejects.toThrow(InvalidDecimalPlacesError);
         });
     });
@@ -47,19 +47,19 @@ describe('TransactionService', () => {
     describe('Operações de Saque', () => {
         it('deve realizar saque com sucesso', async () => {
             const input = { conta: "12345", valor: 500 };
-            const result = await service.withdraw(input);
+            const result = await service.withdraw(input.conta, input.valor);
             expect(result?.saldo).toBe(500);
         });
 
         it('deve rejeitar saque maior que saldo', async () => {
             const input = { conta: "12345", valor: 2000 };
-            await expect(service.withdraw(input))
+            await expect(service.withdraw(input.conta, input.valor))
                 .rejects.toThrow(InsufficientFundsError);
         });
 
         it('deve rejeitar saque com valor negativo', async () => {
             const input = { conta: "12345", valor: -100 };
-            await expect(service.withdraw(input))
+            await expect(service.withdraw(input.conta, input.valor))
                 .rejects.toThrow(NegativeFundsError);
         });
     });
@@ -68,47 +68,59 @@ describe('TransactionService', () => {
         it('deve rejeitar operação em conta inexistente', async () => {
             mockRepository.findByAccountNumber.mockResolvedValueOnce(null);
             const input = { conta: "99999", valor: 100 };
-            await expect(service.deposit(input))
+            await expect(service.deposit(input.conta, input.valor))
                 .rejects.toThrow(NotFoundError);
         });
 
         it('deve rejeitar erro de banco de dados', async () => {
             mockRepository.updateAccountBalance.mockRejectedValueOnce(new Error('Database error'));
             const input = { conta: "12345", valor: 100 };
-            await expect(service.deposit(input)).rejects.toThrow();
+            await expect(service.deposit(input.conta, input.valor)).rejects.toThrow();
         });
     });
 
     describe('Edge Cases', () => {
         it('deve rejeitar valores não numéricos', async () => {
             const input = { conta: "12345", valor: NaN };
-            await expect(service.deposit(input))
+            await expect(service.deposit(input.conta, input.valor))
                 .rejects.toThrow(InvalidFundsError);
         });
 
         it('deve rejeitar valores infinitos', async () => {
             const input = { conta: "12345", valor: Infinity };
-            await expect(service.deposit(input))
+            await expect(service.deposit(input.conta, input.valor))
                 .rejects.toThrow(InvalidFundsError);
         });
 
         it('deve lidar com saque do saldo total', async () => {
             const input = { conta: "12345", valor: 1000 };
-            const result = await service.withdraw(input);
+            const result = await service.withdraw(input.conta, input.valor);
             expect(result?.saldo).toBe(0);
         });
 
         it('deve preservar precisão em operações sequenciais', async () => {
             // Primeira operação: depósito
             const deposit = { conta: "12345", valor: 0.1 };
-            await service.deposit(deposit);
+            await service.deposit(deposit.conta, deposit.valor);
 
             // Segunda operação: saque
             const withdraw = { conta: "12345", valor: 0.05 };
-            const result = await service.withdraw(withdraw);
+            const result = await service.withdraw(withdraw.conta, withdraw.valor);
 
             // Verifica se o saldo final está correto (1000 + 0.1 - 0.05 = 1000.05)
             expect(result?.saldo).toBe(1000.05);
+        });
+
+        it('deve rejeitar depósito com valor negativo', async () => {
+            const input = { conta: "12345", valor: -100 };
+            await expect(service.deposit(input.conta, input.valor))
+                .rejects.toThrow(NegativeFundsError);
+        });
+
+        it('deve rejeitar depósito negativo com decimais', async () => {
+            const input = { conta: "12345", valor: -100.50 };
+            await expect(service.deposit(input.conta, input.valor))
+                .rejects.toThrow(NegativeFundsError);
         });
     });
 });

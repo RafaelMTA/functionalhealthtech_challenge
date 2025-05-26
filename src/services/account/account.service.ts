@@ -1,7 +1,6 @@
-import { InvalidAccountNumberError, InvalidDecimalPlacesError, InvalidFundsError, NotFoundError } from "../../errors/applicationErrors";
 import { IAccountRepository } from "../../repositories/interfaces/account.repository.interface";
-import { CreateAccountInput, IAccount } from "../../types/account.type";
-import { hasMoreThanTwoDecimals } from "../../utils/number.helper";
+import { IAccount } from "../../types/account.type";
+import { validateAccountNumber, validateDecimalPlaces, validateExistingAccount, validateFundsFormat, validateNegativeFundsAmount } from "../../validations/services.validations";
 import { IAccountService } from "../interfaces/account.service.interface";
 
 /**
@@ -21,60 +20,40 @@ export class AccountService implements IAccountService {
 
     /**
      * Cria uma nova conta bancária
-     * @param input.saldo Dados iniciais da conta
+     * @param initialBalance Valor inicial da conta
      * @returns Conta criada
+     * @throws {InvalidFundsError} Quando formato de valor é inválido
+     * @throws {InvalidDecimalPlacesError} Quando número de casas decimais é inválido
+     * @throws {NegativeFundsError} Quando valor é negativo
      */
-    async createAccount(input: CreateAccountInput): Promise<IAccount> {
-        this.validateFundsFormat(input.saldo);
-        this.validateDecimalPlaces(input.saldo);
-        return await this.accountRepository.createAccount(input);
+    async createAccount(initialBalance: number): Promise<IAccount> {
+        validateFundsFormat(initialBalance);
+        validateDecimalPlaces(initialBalance);
+        validateNegativeFundsAmount(initialBalance);
+        return await this.accountRepository.createAccount(initialBalance);
     }
 
     /**
      * Busca uma conta pelo número
-     * @param conta Número da conta a ser buscada
+     * @param accountNumber Número da conta a ser buscada
      * @returns Conta encontrada ou null
      * @throws {InvalidAccountNumberError} Quando número da conta é inválido
      */
-    async getAccount(conta: string): Promise<IAccount | null> {
-        this.validateAccountNumber(conta);
-        return await this.accountRepository.findByAccountNumber(conta);
+    async getAccount(accountNumber: string): Promise<IAccount | null> {
+        validateAccountNumber(accountNumber);
+        return await this.accountRepository.findByAccountNumber(accountNumber);
     }
 
     /**
      * Remove uma conta existente
-     * @param conta Número da conta a ser removida
+     * @param accountNumber Número da conta a ser removida
      * @returns Conta removida ou null
      * @throws {InvalidAccountNumberError} Quando número da conta é inválido
      */
-    async deleteAccount(conta: string): Promise<IAccount | null> {
-        this.validateAccountNumber(conta);
-        const result =  await this.accountRepository.deleteByAccountNumber(conta);
-        this.validateExistingAccount(result);
+    async deleteAccount(accountNumber: string): Promise<IAccount | null> {
+        validateAccountNumber(accountNumber);
+        const result = await this.accountRepository.deleteByAccountNumber(accountNumber);
+        validateExistingAccount(result);
         return result;
-    }
-
-    private validateAccountNumber(conta: string): void {
-        if (!conta) {
-            throw new InvalidAccountNumberError("Número da conta é inválido");
-        }
-    }
-
-    private validateExistingAccount(account: IAccount | null): void {
-        if (!account) {
-            throw new NotFoundError("Transaction Error: Conta não encontrada");
-        }
-    }
-
-    private validateFundsFormat(value: number): void {
-        if (isNaN(value) || !isFinite(value)) {
-            throw new InvalidFundsError("Transaction Error: Formato de valor inválido");
-        }
-    }
-
-    private validateDecimalPlaces(value: number): void {
-        if (hasMoreThanTwoDecimals(value)) {
-            throw new InvalidDecimalPlacesError("Transaction Error: Valor não pode ter mais que 2 casas decimais");
-        }
     }
 }

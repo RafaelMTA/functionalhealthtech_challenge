@@ -1,6 +1,6 @@
 import { AppError, DatabaseError } from "../../errors/applicationErrors";
 import { Account } from "../../models/account.model";
-import { CreateAccountInput, IAccount } from "../../types/account.type";
+import { IAccount } from "../../types/account.type";
 import { generateAccountNumber } from "../../utils/account.helper";
 import { IAccountRepository } from "../interfaces/account.repository.interface";
 
@@ -33,17 +33,16 @@ export class AccountRepository implements IAccountRepository {
      * @throws {AppError} Em caso de erro na aplicação
      * @throws {DatabaseError} Em caso de erro no banco
      */
-    async createAccount(input: CreateAccountInput): Promise<IAccount> {
+    async createAccount(initialBalance: number): Promise<IAccount> {
         try {
-            const conta = generateAccountNumber();
+            const accountNumber = generateAccountNumber();
             const newAccount = await this.accountModel.create({
-                conta,
-                saldo: input.saldo,
+                conta: accountNumber,
+                saldo: initialBalance,
             });
 
             return newAccount;
-        }
-        catch (error) {
+        } catch (error) {
             if (error instanceof AppError) throw error;
             throw new DatabaseError(`Database Error: Erro ao criar uma conta: ${error}`);
         }
@@ -51,14 +50,14 @@ export class AccountRepository implements IAccountRepository {
 
     /**
      * Busca uma conta pelo número da conta
-     * @param conta Número da conta a ser buscada
+     * @param accountNumber Número da conta a ser buscada
      * @returns A conta encontrada ou null se não existir
      * @throws {AppError} Em caso de erro na aplicação
      * @throws {DatabaseError} Em caso de erro no banco
      */
-    async findByAccountNumber(conta: string): Promise<IAccount | null> {
+    async findByAccountNumber(accountNumber: string): Promise<IAccount | null> {
         try {
-            return await this.accountModel.findOne({ conta });
+            return await this.accountModel.findOne({ conta: accountNumber });
         } catch (error) {
             if (error instanceof AppError) throw error;
             throw new DatabaseError(`Database Error: Erro ao buscar a conta: ${error}`);
@@ -73,11 +72,11 @@ export class AccountRepository implements IAccountRepository {
      * @throws {AppError} Em caso de erro na aplicação
      * @throws {DatabaseError} Em caso de erro no banco
      */
-    async updateAccountBalance(conta: string, novoSaldo: number): Promise<IAccount | null> {
+    async updateAccountBalance(accountNumber: string, newBalance: number): Promise<IAccount | null> {
         try {
             return await this.accountModel.findOneAndUpdate(
-                { conta },
-                { saldo: novoSaldo },
+                { conta: accountNumber },
+                { saldo: newBalance },
                 { new: true }
             );
         } catch (error) {
@@ -88,14 +87,14 @@ export class AccountRepository implements IAccountRepository {
 
     /**
      * Deleta uma conta pelo número da conta
-     * @param conta Número da conta a ser deletada
+     * @param accountNumber Número da conta a ser deletada
      * @returns A conta deletada ou null se não existir
      * @throws {AppError} Em caso de erro na aplicação
      * @throws {DatabaseError} Em caso de erro no banco
      */
-    async deleteByAccountNumber(conta: string): Promise<IAccount | null> {
+    async deleteByAccountNumber(accountNumber: string): Promise<IAccount | null> {
         try {
-            return await this.accountModel.findOneAndDelete({ conta });
+            return await this.accountModel.findOneAndDelete({ conta: accountNumber });
         } catch (error) {
             if (error instanceof AppError) throw error;
             throw new DatabaseError(`Database Error: Erro ao deletar a conta: ${error}`);

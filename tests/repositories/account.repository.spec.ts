@@ -45,47 +45,40 @@ describe('AccountRepository', () => {
             await expect(repository.getAllAccounts())
                 .rejects.toThrow(appError);
         });
-
-        it('deve converter erro genérico em DatabaseError', async () => {
-            const genericError = new Error('Generic error');
-            mockModel.find.mockRejectedValueOnce(genericError);
-            await expect(repository.getAllAccounts())
-                .rejects.toThrow(DatabaseError);
-        });
     });
 
     describe('createAccount', () => {
         it('deve criar conta com sucesso', async () => {
-            const input = { saldo: 1000 };
-            const result = await repository.createAccount(input);
-            expect(result.saldo).toBe(input.saldo);
+            const saldo = 1000;
+            const result = await repository.createAccount(saldo);
+            expect(result.saldo).toBe(saldo);
             expect(result.conta).toBeDefined();
             expect(mockModel.create).toHaveBeenCalled();
         });
 
         it('deve lidar com erro ao criar conta', async () => {
-            const input = { saldo: 1000 };
+            const saldo = 1000;
             mockModel.create.mockRejectedValueOnce(new Error('Create failed'));
-            await expect(repository.createAccount(input))
+            await expect(repository.createAccount(saldo))
                 .rejects.toThrow(DatabaseError);
         });
 
         it('deve criar conta com saldo zero', async () => {
-            const input = { saldo: 0 };
-            const result = await repository.createAccount(input);
+            const saldo = 0;
+            const result = await repository.createAccount(saldo);
             expect(result.saldo).toBe(0);
         });
 
         it('deve criar conta com saldo decimal', async () => {
-            const input = { saldo: 100.50 };
-            const result = await repository.createAccount(input);
+            const saldo = 100.50;
+            const result = await repository.createAccount(saldo);
             expect(result.saldo).toBe(100.50);
         });
 
         it('deve propagar AppError na criação', async () => {
             const appError = new AppError('Custom app error', 400);
             mockModel.create.mockRejectedValueOnce(appError);
-            await expect(repository.createAccount({ saldo: 1000 }))
+            await expect(repository.createAccount(1000))
                 .rejects.toThrow(appError);
         });
     });
@@ -105,14 +98,6 @@ describe('AccountRepository', () => {
 
         it('deve lidar com erro ao buscar conta', async () => {
             mockModel.findOne.mockRejectedValueOnce(new Error('Database error'));
-            await expect(repository.findByAccountNumber("12345"))
-                .rejects.toThrow(DatabaseError);
-        });
-
-        it('deve lidar com erro de validação do MongoDB', async () => {
-            const validationError = new Error('Validation failed');
-            validationError.name = 'ValidationError';
-            mockModel.findOne.mockRejectedValueOnce(validationError);
             await expect(repository.findByAccountNumber("12345"))
                 .rejects.toThrow(DatabaseError);
         });

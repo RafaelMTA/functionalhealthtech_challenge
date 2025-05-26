@@ -9,13 +9,8 @@ export const typeDefs = gql`
     saldo: Decimal!
   }
 
-  input EditFundsInput {
-    conta: String!,
-    valor: Decimal!
-  }
-
   type Mutation {
-    depositar(input: EditFundsInput!): Account!
-    sacar(input: EditFundsInput!): Account!
+    depositar(conta: String!, valor: Decimal!): Account!
+    sacar(conta: String!, valor: Decimal!): Account!
   }
 `;

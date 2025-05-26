@@ -178,10 +178,10 @@ query BuscarConta($conta: String!) {
 
 ### Mutations
 ```graphql
-criarConta(input: CreateAccountInput!): Account!
+criarConta(saldo: Decimal!): Account!
 deletarConta(conta: String!): Accout
-depositar(input: EditFundsInput!): Account!
-sacar(input: EditFundsInput!): Account!
+depositar(conta: String!, valor: Decimal!): Account!
+sacar(conta: String!, valor: Decimal!): Account!
 ```
 
 #### Mutations Apollo API
@@ -189,8 +189,8 @@ sacar(input: EditFundsInput!): Account!
 ```graphql
 # Template para criação de uma conta
 # Adicione o código abaixo na area de operações(Operation)
-mutation CriarConta($input: CreateAccountInput!) {
-  criarConta(input: $input) {
+mutation CriarConta($saldo: Decimal!) {
+  criarConta(saldo: $saldo) {
     conta
     saldo
   }
@@ -201,9 +201,7 @@ mutation CriarConta($input: CreateAccountInput!) {
 # Exemplo para os parametros(JSON)
 # Adicione o código abaixo na area de variáveis(Variables)
 {
-  "input": {
-    "saldo": 0
-  }
+  "saldo": 0
 }
 ```
 
@@ -231,8 +229,28 @@ mutation DeletarConta($conta: String!) {
 ```graphql
 # Template para depositar um valor em uma conta
 # Adicione o código abaixo na area de operações(Operation)
-mutation Depositar($input: EditFundsInput!) {
-  depositar(input: $input) {
+mutation Depositar($conta: String!, $valor: Decimal!) {
+  depositar(conta: $conta, valor: $valor) {
+    conta
+    saldo    
+  }
+}
+```
+
+```graphql
+# Exemplo para os parametros(JSON)
+# Adicione o código abaixo na area de variáveis(Variables)
+{
+  "conta": "20030",
+  "valor": 31.23
+}
+```
+
+##### Sacar
+```graphql
+# Template para sacar um valor de uma conta
+mutation Sacar($conta: String!, $valor: Decimal!) {
+  sacar(conta: $conta, valor: $valor) {
     conta
     saldo
   }
@@ -243,33 +261,10 @@ mutation Depositar($input: EditFundsInput!) {
 # Exemplo para os parametros(JSON)
 # Adicione o código abaixo na area de variáveis(Variables)
 {
-  "input": {
-    "conta": "33070",
-    "valor": 100.14
-  }
+  "conta": "33070",
+  "valor": 100
 }
-```
 
-##### Sacar
-```graphql
-# Template para sacar um valor de uma conta
-mutation Sacar($input: EditFundsInput!) {
-  sacar(input: $input) {
-    conta
-    saldo   
-  }
-}
-```
-
-```graphql
-# Exemplo para os parametros(JSON)
-# Adicione o código abaixo na area de variáveis(Variables)
-{
-  "input": {
-    "conta": "33070",
-    "valor": 0
-  }
-}
 ```
 
 ## 🔒 Validações Implementadas

@@ -1,5 +1,4 @@
 import { ITransactionService } from "../../services/interfaces/transaction.service.interface";
-import { EditFundsInput } from "../../types/transaction.type";
 
 /**
  * Resolvers para operações de transação
@@ -10,24 +9,22 @@ export const resolvers = (transactionService: ITransactionService) => ({
     Mutation: {
         /**
          * Realiza saque em uma conta
-         * @param input Objeto contendo número da conta e valor a ser sacado
+         * @param conta Número da conta
+         * @param valor Valor a ser sacado
          * @returns Conta atualizada após o saque
-         * @throws {InsufficientFundsError} Quando saldo é insuficiente
-         * @throws {NotFoundError} Quando conta não é encontrada
          */
-        sacar: async (_: unknown, { input }: { input: EditFundsInput }) => {
-            return await transactionService.withdraw(input);
+        sacar: async (_: unknown, { conta, valor }: { conta: string, valor: number }) => {
+            return await transactionService.withdraw(conta, valor);
         },
 
         /**
          * Realiza depósito em uma conta
-         * @param input Objeto contendo número da conta e valor a ser depositado
+         * @param conta Número da conta
+         * @param valor Valor a ser depositado
          * @returns Conta atualizada após o depósito
-         * @throws {NotFoundError} Quando conta não é encontrada
-         * @throws {InvalidDecimalPlacesError} Quando valor tem mais de 2 casas decimais
          */
-        depositar: async (_: unknown, { input }: { input: EditFundsInput }) => {
-            return await transactionService.deposit(input);;
+        depositar: async (_: unknown, { conta, valor }: { conta: string, valor: number }) => {
+            return await transactionService.deposit(conta, valor);
         },
     },
 });

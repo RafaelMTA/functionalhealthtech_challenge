@@ -33,10 +33,9 @@ describe('Account Resolvers', () => {
 
     describe('Mutation', () => {
         it('deve criar conta com sucesso', async () => {
-            const input = { valor: 1000 };
-            const result = await resolver.Mutation.criarConta(null, { input });
+            const result = await resolver.Mutation.criarConta(null, { saldo: 1000 });
             expect(result).toEqual(mockAccount);
-            expect(mockService.createAccount).toHaveBeenCalledWith(input);
+            expect(mockService.createAccount).toHaveBeenCalledWith(1000);
         });
 
         it('deve deletar conta com sucesso', async () => {

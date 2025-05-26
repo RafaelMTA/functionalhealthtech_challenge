@@ -1,5 +1,4 @@
 import { IAccountService } from "../../services/interfaces/account.service.interface";
-import { CreateAccountInput } from "../../types/account.type";
 
 /**
  * Resolvers para operações de conta
@@ -31,8 +30,8 @@ export const resolvers = (accountService: IAccountService) => ({
          * @param input Objeto contendo o saldo inicial
          * @returns Nova conta criada
          */
-        criarConta: async (_: unknown, { input }: { input: CreateAccountInput }) => {
-            return await accountService.createAccount(input);
+        criarConta: async (_: unknown, { saldo }: { saldo: number }) => {
+            return await accountService.createAccount(saldo);
         },
 
         /**

@@ -9,17 +9,13 @@ export const typeDefs = gql`
     saldo: Decimal!
   }
 
-  input CreateAccountInput {
-    saldo: Decimal!
-  }
-
   type Query {
     listarContas: [Account!]!
     buscarConta(conta: String!): Account
   }
 
   type Mutation {
-    criarConta(input: CreateAccountInput!): Account!
+    criarConta(saldo: Decimal!): Account!
     deletarConta(conta: String!): Account
   }
 `;

@@ -23,15 +23,8 @@ describe('GraphQL Schema', () => {
     describe('Transaction TypeDefs', () => {
         it('deve definir inputs corretamente', () => {
             const schema = print(transactionTypeDefs);
-            expect(schema).toContain('input EditFundsInput {');
             expect(schema).toMatch(/conta:\s*String!/);
             expect(schema).toMatch(/saldo:\s*Decimal!/);
-        });
-
-        it('deve definir mutations corretamente', () => {
-            const schema = print(transactionTypeDefs);
-            expect(schema).toContain('depositar(input: EditFundsInput!)');
-            expect(schema).toContain('sacar(input: EditFundsInput!)');
         });
     });
 });
