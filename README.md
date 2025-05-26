@@ -179,7 +179,7 @@ query BuscarConta($conta: String!) {
 ### Mutations
 ```graphql
 criarConta(saldo: Decimal!): Account!
-deletarConta(conta: String!): Accout
+deletarConta(conta: String!): Account
 depositar(conta: String!, valor: Decimal!): Account!
 sacar(conta: String!, valor: Decimal!): Account!
 ```
