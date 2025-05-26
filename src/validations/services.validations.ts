@@ -32,7 +32,7 @@ export function validateNegativeFundsAmount(value: number): void {
     }
 }
 
-export function validateInvalidFundsAmount(value: number): void {
+export function validateZeroFundsAmount(value: number): void {
     if (value == 0) {
         throw new InvalidFundsAmountError("Transaction Error: Valor não pode ser zero");
     }

@@ -37,7 +37,7 @@ export class AccountService implements IAccountService {
      * Busca uma conta pelo número
      * @param accountNumber Número da conta a ser buscada
      * @returns Conta encontrada ou null
-     * @throws {InvalidAccountNumberError} Quando número da conta é inválido
+     * @throws {InvalidAccountNumberError} Quando número da conta é inválido(ex: não possui 5 dígitos)
      */
     async getAccount(accountNumber: string): Promise<IAccount | null> {
         validateAccountNumber(accountNumber);
@@ -48,12 +48,12 @@ export class AccountService implements IAccountService {
      * Remove uma conta existente
      * @param accountNumber Número da conta a ser removida
      * @returns Conta removida ou null
-     * @throws {InvalidAccountNumberError} Quando número da conta é inválido
+     * @throws {InvalidAccountNumberError} Quando número da conta é inválido(ex: não possui 5 dígitos)
      */
-    async deleteAccount(accountNumber: string): Promise<IAccount | null> {
+    async deleteAccount(accountNumber: string): Promise<IAccount> {
         validateAccountNumber(accountNumber);
         const result = await this.accountRepository.deleteByAccountNumber(accountNumber);
         validateExistingAccount(result);
-        return result;
+        return result!;
     }
 }

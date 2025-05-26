@@ -2,7 +2,7 @@ import { IAccount } from "../../types/account.type";
 import { ITransactionService } from "../interfaces/transaction.service.interface";
 import { truncateToTwoDecimals } from '../../utils/number.helper';
 import { IAccountRepository } from "../../repositories/interfaces/account.repository.interface";
-import { validateAccountNumber, validateDecimalPlaces, validateExistingAccount, validateFundsFormat, validateInvalidFundsAmount, validateNegativeFundsAmount, validateSufficientFunds } from "../../validations/services.validations";
+import { validateAccountNumber, validateDecimalPlaces, validateExistingAccount, validateFundsFormat, validateNegativeFundsAmount, validateSufficientFunds, validateZeroFundsAmount } from "../../validations/services.validations";
 export class TransactionService implements ITransactionService {
     constructor(private accountRepository: IAccountRepository) { }
 
@@ -18,18 +18,20 @@ export class TransactionService implements ITransactionService {
      * @throws {InvalidFundsAmountError} Quando valor é zero
      * @throws {NotFoundError} Quando conta não existe  
      */
-    async deposit(accountNumber: string, value: number): Promise<IAccount | null> {
+    async deposit(accountNumber: string, value: number): Promise<IAccount> {
         validateAccountNumber(accountNumber);
         validateDecimalPlaces(value);
         validateFundsFormat(value);
         validateNegativeFundsAmount(value);
-        validateInvalidFundsAmount(value);
+        validateZeroFundsAmount(value);
 
         const account = await this.accountRepository.findByAccountNumber(accountNumber);
         validateExistingAccount(account);
 
         const novoSaldo = truncateToTwoDecimals(account!.saldo + value);
-        return await this.accountRepository.updateAccountBalance(account!.conta, novoSaldo);
+        const updatedAccount = await this.accountRepository.updateAccountBalance(account!.conta, novoSaldo);
+        validateExistingAccount(updatedAccount);
+        return updatedAccount!;
     }
 
     /**
@@ -45,18 +47,20 @@ export class TransactionService implements ITransactionService {
      * @throws {NotFoundError} Quando conta não existe
      * @throws {InsufficientFundsError} Quando saldo é insuficiente   
      */
-    async withdraw(accountNumber: string, value: number): Promise<IAccount | null> {
+    async withdraw(accountNumber: string, value: number): Promise<IAccount> {
         validateAccountNumber(accountNumber);
         validateDecimalPlaces(value);
         validateFundsFormat(value);
         validateNegativeFundsAmount(value);
-        validateInvalidFundsAmount(value);
+        validateZeroFundsAmount(value);
 
         const account = await this.accountRepository.findByAccountNumber(accountNumber);
         validateExistingAccount(account);
         validateSufficientFunds(account!, value);
 
         const newBalance = truncateToTwoDecimals(account!.saldo - value);
-        return await this.accountRepository.updateAccountBalance(account!.conta, newBalance);
+        const updatedAccount = await this.accountRepository.updateAccountBalance(account!.conta, newBalance);
+        validateExistingAccount(updatedAccount);
+        return updatedAccount!;
     }
 }

@@ -28,7 +28,7 @@ export class AccountRepository implements IAccountRepository {
 
     /**
      * Cria uma nova conta
-     * @param input Objeto contendo valor inicial da conta
+     * @param initialBalance Valor inicial da conta
      * @returns A conta criada
      * @throws {AppError} Em caso de erro na aplicação
      * @throws {DatabaseError} Em caso de erro no banco
@@ -66,8 +66,8 @@ export class AccountRepository implements IAccountRepository {
 
     /**
      * Atualiza o saldo de uma conta
-     * @param conta Número da conta a ser atualizada
-     * @param novoSaldo Novo saldo da conta
+     * @param accountNumber Número da conta a ser atualizada
+     * @param newBalance Novo saldo da conta
      * @returns A conta atualizada ou null se não existir
      * @throws {AppError} Em caso de erro na aplicação
      * @throws {DatabaseError} Em caso de erro no banco
