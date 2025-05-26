@@ -27,7 +27,7 @@ export const resolvers = (accountService: IAccountService) => ({
     Mutation: {
         /**
          * Cria uma nova conta
-         * @param input Objeto contendo o saldo inicial
+         * @param saldo Saldo inicial
          * @returns Nova conta criada
          */
         criarConta: async (_: unknown, { saldo }: { saldo: number }) => {
