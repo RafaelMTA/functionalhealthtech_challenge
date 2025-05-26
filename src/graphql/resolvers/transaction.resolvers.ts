@@ -16,8 +16,7 @@ export const resolvers = (transactionService: ITransactionService) => ({
          * @throws {NotFoundError} Quando conta não é encontrada
          */
         sacar: async (_: unknown, { input }: { input: EditFundsInput }) => {
-            const transaction = await transactionService.withdraw(input);
-            return transaction;
+            return await transactionService.withdraw(input);
         },
 
         /**
@@ -28,8 +27,7 @@ export const resolvers = (transactionService: ITransactionService) => ({
          * @throws {InvalidDecimalPlacesError} Quando valor tem mais de 2 casas decimais
          */
         depositar: async (_: unknown, { input }: { input: EditFundsInput }) => {
-            const transaction = await transactionService.deposit(input);
-            return transaction;
+            return await transactionService.deposit(input);;
         },
     },
 });

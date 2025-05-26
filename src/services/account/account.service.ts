@@ -1,6 +1,7 @@
-import { InvalidAccountNumberError } from "../../errors/applicationErrors";
+import { InvalidAccountNumberError, InvalidDecimalPlacesError, InvalidFundsError, NotFoundError } from "../../errors/applicationErrors";
 import { IAccountRepository } from "../../repositories/interfaces/account.repository.interface";
 import { CreateAccountInput, IAccount } from "../../types/account.type";
+import { hasMoreThanTwoDecimals } from "../../utils/number.helper";
 import { IAccountService } from "../interfaces/account.service.interface";
 
 /**
@@ -20,10 +21,12 @@ export class AccountService implements IAccountService {
 
     /**
      * Cria uma nova conta bancária
-     * @param input Dados iniciais da conta
+     * @param input.saldo Dados iniciais da conta
      * @returns Conta criada
      */
     async createAccount(input: CreateAccountInput): Promise<IAccount> {
+        this.validateFundsFormat(input.saldo);
+        this.validateDecimalPlaces(input.saldo);
         return await this.accountRepository.createAccount(input);
     }
 
@@ -46,12 +49,32 @@ export class AccountService implements IAccountService {
      */
     async deleteAccount(conta: string): Promise<IAccount | null> {
         this.validateAccountNumber(conta);
-        return await this.accountRepository.deleteByAccountNumber(conta);
+        const result =  await this.accountRepository.deleteByAccountNumber(conta);
+        this.validateExistingAccount(result);
+        return result;
     }
 
     private validateAccountNumber(conta: string): void {
         if (!conta) {
             throw new InvalidAccountNumberError("Número da conta é inválido");
+        }
+    }
+
+    private validateExistingAccount(account: IAccount | null): void {
+        if (!account) {
+            throw new NotFoundError("Transaction Error: Conta não encontrada");
+        }
+    }
+
+    private validateFundsFormat(value: number): void {
+        if (isNaN(value) || !isFinite(value)) {
+            throw new InvalidFundsError("Transaction Error: Formato de valor inválido");
+        }
+    }
+
+    private validateDecimalPlaces(value: number): void {
+        if (hasMoreThanTwoDecimals(value)) {
+            throw new InvalidDecimalPlacesError("Transaction Error: Valor não pode ter mais que 2 casas decimais");
         }
     }
 }

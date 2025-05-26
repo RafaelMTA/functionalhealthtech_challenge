@@ -13,8 +13,7 @@ export const resolvers = (accountService: IAccountService) => ({
          * @returns Array de contas
          */
         listarContas: async () => {
-            const accounts = await accountService.getAllAccounts();
-            return accounts;
+            return await accountService.getAllAccounts();
         },
 
         /**
@@ -23,8 +22,7 @@ export const resolvers = (accountService: IAccountService) => ({
          * @returns Dados da conta ou null se não encontrada
          */
         buscarConta: async (_: unknown, { conta }: { conta: string }) => {
-            const account = await accountService.getAccount(conta);
-            return account;
+            return await accountService.getAccount(conta);
         }
     },
     Mutation: {
@@ -34,8 +32,7 @@ export const resolvers = (accountService: IAccountService) => ({
          * @returns Nova conta criada
          */
         criarConta: async (_: unknown, { input }: { input: CreateAccountInput }) => {
-            const account = await accountService.createAccount(input);
-            return account;
+            return await accountService.createAccount(input);
         },
 
         /**
@@ -44,8 +41,7 @@ export const resolvers = (accountService: IAccountService) => ({
          * @returns Conta removida ou null se não encontrada
          */
         deletarConta: async (_: unknown, { conta }: { conta: string }) => {
-            const account = await accountService.deleteAccount(conta);
-            return account;
+            return await accountService.deleteAccount(conta);
         }
     }
 });
