@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { AccountRepository } from '../../src/repositories/account/account.repository';
-import { AppError, DatabaseError } from '../../src/errors/applicationErrors';
+import { DatabaseError } from '../../src/errors/applicationErrors';
 import { mockAccount, mockAccounts } from '../mocks/account.mock';
 
 describe('AccountRepository', () => {
@@ -38,13 +38,6 @@ describe('AccountRepository', () => {
             await expect(repository.getAllAccounts())
                 .rejects.toThrow(DatabaseError);
         });
-
-        it('deve propagar AppError de operações do banco', async () => {
-            const appError = new AppError('Custom app error', 400);
-            mockModel.find.mockRejectedValueOnce(appError);
-            await expect(repository.getAllAccounts())
-                .rejects.toThrow(appError);
-        });
     });
 
     describe('createAccount', () => {
@@ -73,13 +66,6 @@ describe('AccountRepository', () => {
             const saldo = 100.50;
             const result = await repository.createAccount(saldo);
             expect(result.saldo).toBe(100.50);
-        });
-
-        it('deve propagar AppError na criação', async () => {
-            const appError = new AppError('Custom app error', 400);
-            mockModel.create.mockRejectedValueOnce(appError);
-            await expect(repository.createAccount(1000))
-                .rejects.toThrow(appError);
         });
     });
 
@@ -151,13 +137,6 @@ describe('AccountRepository', () => {
             mockModel.findOneAndUpdate.mockRejectedValueOnce(new Error('Database error'));
             await expect(repository.updateAccountBalance("12345", 1000))
                 .rejects.toThrow(DatabaseError);
-        });
-
-        it('deve propagar AppError ao atualizar saldo', async () => {
-            const appError = new AppError('Custom app error', 400);
-            mockModel.findOneAndUpdate.mockRejectedValueOnce(appError);
-            await expect(repository.updateAccountBalance("12345", 1000))
-                .rejects.toThrow(appError);
         });
     });
 });

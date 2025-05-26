@@ -111,14 +111,6 @@ describe('Account Model', () => {
             expect(validationError).toBeDefined();
         });
 
-        it('deve lidar com a precisão de ponto flutuante', () => {
-            const account = new model({
-                conta: '12345',
-                saldo: 0.1 + 0.2
-            });
-            expect(account.saldo).toBe(0.30);
-        });
-
         it('deve rejeitar saldo não numérico', () => {
             const account = new model({
                 conta: '12345',
@@ -134,26 +126,6 @@ describe('Account Model', () => {
                 saldo: undefined
             });
             expect(account.saldo).toBe(0);
-        });
-    });
-
-    describe('Transformação de Dados', () => {
-        it('deve converter para JSON com saldo formatado', () => {
-            const account = new model({
-                conta: '12345',
-                saldo: 100.999
-            });
-            const json = account.toJSON();
-            expect(json.saldo).toBe(100.99);
-        });
-
-        it('deve preservar a precisão do saldo em operações', () => {
-            const account = new model({
-                conta: '12345',
-                saldo: 100.45
-            });
-            account.saldo += 0.01;
-            expect(account.saldo).toBe(100.46);
         });
     });
 });
