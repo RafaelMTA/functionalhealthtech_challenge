@@ -23,7 +23,7 @@ API GraphQL para gerenciamento de contas bancárias desenvolvida com Node.js, Ty
 ## 💻 Pré-requisitos
 
 - Node.js (versão 16 ou superior)
-- MongoDB (local ou Atlas)
+- MongoDB (local)
 - NPM ou Yarn
 
 ## 🔧 Instalação
@@ -74,15 +74,6 @@ use bankapp
 # Crie um arquivo .env na raiz do projeto com as seguintes variáveis
 PORT=3000
 MONGODB_URI=mongodb://localhost:27017/bankapp
-```
-
-### 2. Mongo Atlas(Cloud)
-
-#### 2.1. Inclua em seu arquivo .env a URL abaixo:
-```bash
-# Crie um arquivo .env na raiz do projeto com as seguintes variáveis, usuário temporario apenas para avaliação do desafio
-PORT=3000
-MONGODB_URI=mongodb+srv://openuser:V1YvYcNGBpQVPkda@bankapp.hdjczyu.mongodb.net/?retryWrites=true&w=majority&appName=bankapp
 ```
 
 ## 🏃‍♂️ Executando o Projeto
